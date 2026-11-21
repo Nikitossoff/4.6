@@ -14,7 +14,6 @@ void Vvod(FILE *in, int *x, int n) {
     return;
 }
 
-
 int poisk(int *x, int n, int z) {
     bool fl = true;
     int i = n - 1;
@@ -29,14 +28,19 @@ int poisk(int *x, int n, int z) {
     return i;
 }
 
-void rebirth(int **x, int k) {
-    *x = (int *)realloc(*x, k * sizeof(int));
+void FormNov(int **nov, int *k, int *x, int idx) {
+    *nov = NULL;
+    *k = 0;
+    for (int i = 0; i < idx; i++) {
+        *nov = (int *)realloc(*nov, (*k + 1) * sizeof(int));
+        (*nov)[*k] = x[i];
+        (*k)++;
+    }
     return;
 }
 
 void Vivod(FILE *out, int *x, int n) {
     fprintf(out, "==================================\n");
-    fprintf(out, "Новый массив:\n");
     for (int i = 0; i < n; i++) {
         fprintf(out, "%4i ", x[i]);
     }
@@ -45,6 +49,9 @@ void Vivod(FILE *out, int *x, int n) {
 }
 
 void Ochistka(int **x) {
-    free((*x));
+    if (*x != NULL) {
+        free(*x);
+        *x = NULL;
+    }
     return;
 }

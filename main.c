@@ -50,64 +50,73 @@ int main()
     int idx_b = poisk(B, nb, y);
     int idx_c = poisk(C, nc, y);
 
+    int *A1 = NULL, *B1 = NULL, *C1 = NULL;
+    int ka = 0, kb = 0, kc = 0;
+
     FILE *out = fopen("output.txt", "w");
+    fprintf(out, "Изначальный Массив А:\n");
+    Vivod(out, A, na);
+    fprintf(out, "Изначальный Массив B:\n");
+    Vivod(out, B, nb);
+    fprintf(out, "Изначальный Массив C:\n");
+    Vivod(out, C, nc);
 
     if (idx_a > 0 && idx_b > 0 && idx_c > 0) {
         fprintf(out, "Новые массивы сформированы!\n");
-        rebirth(&A, idx_a);
-        rebirth(&B, idx_b);
-        rebirth(&C, idx_c);
-        fprintf(out, "Массив А:\n");
-        Vivod(out, A, idx_a);
-        fprintf(out, "Массив B:\n");
-        Vivod(out, B, idx_b);
-        fprintf(out, "Массив C:\n");
-        Vivod(out, C, idx_c);
+        FormNov(&A1, &ka, A, idx_a);
+        FormNov(&B1, &kb, B, idx_b);
+        FormNov(&C1, &kc, C, idx_c);
+        fprintf(out, "Массив A1 (количество элементов: %i):\n", ka);
+        Vivod(out, A1, ka);
+        fprintf(out, "Массив B1 (количество элементов: %i):\n", kb);
+        Vivod(out, B1, kb);
+        fprintf(out, "Массив C1 (количество элементов: %i):\n", kc);
+        Vivod(out, C1, kc);
     }
     else if (idx_a <= 0 && idx_b > 0 && idx_c > 0) {
         fprintf(out, "Новые массивы B и С сформированы!\n");
-        rebirth(&B, idx_b);
-        rebirth(&C, idx_c);
-        fprintf(out, "Массив B:\n");
-        Vivod(out, B, idx_b);
-        fprintf(out, "Массив C:\n");
-        Vivod(out, C, idx_c);
-    }
-    else if (idx_a <= 0 && idx_b <= 0 && idx_c > 0) {
-        fprintf(out, "Новый массив С сформирован!\n");
-        rebirth(&C, idx_c);
-        fprintf(out, "Массив C:\n");
-        Vivod(out, C, idx_c);
+        FormNov(&B1, &kb, B, idx_b);
+        FormNov(&C1, &kc, C, idx_c);
+        fprintf(out, "Массив B1 (количество элементов: %i):\n", kb);
+        Vivod(out, B1, kb);
+        fprintf(out, "Массив C1 (количество элементов: %i):\n", kc);
+        Vivod(out, C1, kc);
     }
     else if (idx_a > 0 && idx_b <= 0 && idx_c > 0) {
         fprintf(out, "Новые массивы A и С сформированы!\n");
-        rebirth(&A, idx_a);
-        rebirth(&C, idx_c);
-        fprintf(out, "Массив А:\n");
-        Vivod(out, A, idx_a);
-        fprintf(out, "Массив C:\n");
-        Vivod(out, C, idx_c);
+        FormNov(&A1, &ka, A, idx_a);
+        FormNov(&C1, &kc, C, idx_c);
+        fprintf(out, "Массив A1 (количество элементов: %i):\n", ka);
+        Vivod(out, A1, ka);
+        fprintf(out, "Массив C1 (количество элементов: %i):\n", kc);
+        Vivod(out, C1, kc);
     }
     else if (idx_a > 0 && idx_b > 0 && idx_c <= 0) {
         fprintf(out, "Новые массивы A и B сформированы!\n");
-        rebirth(&A, idx_a);
-        rebirth(&B, idx_b);
-        fprintf(out, "Массив А:\n");
-        Vivod(out, A, idx_a);
-        fprintf(out, "Массив B:\n");
-        Vivod(out, B, idx_b);
+        FormNov(&A1, &ka, A, idx_a);
+        FormNov(&B1, &kb, B, idx_b);
+        fprintf(out, "Массив A1 (количество элементов: %i):\n", ka);
+        Vivod(out, A1, ka);
+        fprintf(out, "Массив B1 (количество элементов: %i):\n", kb);
+        Vivod(out, B1, kb);
     }
     else if (idx_a > 0 && idx_b <= 0 && idx_c <= 0) {
         fprintf(out, "Новый массив A сформирован!\n");
-        rebirth(&A, idx_a);
-        fprintf(out, "Массив А:\n");
-        Vivod(out, A, idx_a);
+        FormNov(&A1, &ka, A, idx_a);
+        fprintf(out, "Массив A1 (количество элементов: %i):\n", ka);
+        Vivod(out, A1, ka);
     }
     else if (idx_a <= 0 && idx_b > 0 && idx_c <= 0) {
         fprintf(out, "Новый массив B сформирован!\n");
-        rebirth(&B, idx_b);
-        fprintf(out, "Массив B:\n");
-        Vivod(out, B, idx_b);
+        FormNov(&B1, &kb, B, idx_b);
+        fprintf(out, "Массив B1 (количество элементов: %i):\n", kb);
+        Vivod(out, B1, kb);
+    }
+    else if (idx_a <= 0 && idx_b <= 0 && idx_c > 0) {
+        fprintf(out, "Новый массив С сформирован!\n");
+        FormNov(&C1, &kc, C, idx_c);
+        fprintf(out, "Массив C1 (количество элементов: %i):\n", kc);
+        Vivod(out, C1, kc);
     }
     else {
         fprintf(out, "Все новые массивы содержат 0 элементов (или число Y не найдено)\n");
@@ -121,5 +130,8 @@ int main()
     Ochistka(&A);
     Ochistka(&B);
     Ochistka(&C);
+    Ochistka(&A1);
+    Ochistka(&B1);
+    Ochistka(&C1);
     return 0;
 }
