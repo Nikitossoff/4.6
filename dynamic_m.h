@@ -5,8 +5,9 @@
 
 void Create(int **x, int n);
 void Vvod(FILE *in, int *x, int n);
-int poisk(int *x, int n, int z);
-void FormNov(int **nov, int *k, int *x, int idx);
+int poisk_2_chet(int *x, int n);
+void SozdNov(int **nov, int first_val);
+void DobNov(int **nov, int *k, int *x, int n, int start_idx);
 void Vivod(FILE *out, int *x, int n);
 void Ochistka(int **x);
 

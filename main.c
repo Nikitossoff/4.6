@@ -11,7 +11,8 @@ int main()
     FILE *inA = fopen("t1_A.txt", "r");
     FILE *inB = fopen("t1_B.txt", "r");
     FILE *inC = fopen("t1_C.txt", "r");
-    int na, nb, nc, y;
+    int na, nb, nc;
+
     do {
         printf("Введите количество элементов N массива А: ");
         scanf("%i", &na);
@@ -19,6 +20,7 @@ int main()
             printf("Ошибка! N должно быть больше 1.\n");
         }
     } while (na <= 1 || na > 100);
+
     do {
         printf("Введите количество элементов N массива B: ");
         scanf("%i", &nb);
@@ -26,6 +28,7 @@ int main()
             printf("Ошибка! N должно быть больше 1.\n");
         }
     } while (nb <= 1 || nb > 100);
+
     do {
         printf("Введите количество элементов N массива C: ");
         scanf("%i", &nc);
@@ -33,9 +36,6 @@ int main()
             printf("Ошибка! N должно быть больше 1.\n");
         }
     } while (nc <= 1 || nc > 100);
-
-    printf("Задайте число Y: ");
-    scanf("%i", &y);
 
     int *A = NULL, *B = NULL, *C = NULL;
     Create(&A, na);
@@ -46,9 +46,9 @@ int main()
     Vvod(inB, B, nb);
     Vvod(inC, C, nc);
 
-    int idx_a = poisk(A, na, y);
-    int idx_b = poisk(B, nb, y);
-    int idx_c = poisk(C, nc, y);
+    int idx_a = poisk_2_chet(A, na);
+    int idx_b = poisk_2_chet(B, nb);
+    int idx_c = poisk_2_chet(C, nc);
 
     int *A1 = NULL, *B1 = NULL, *C1 = NULL;
     int ka = 0, kb = 0, kc = 0;
@@ -61,72 +61,44 @@ int main()
     fprintf(out, "Изначальный Массив C:\n");
     Vivod(out, C, nc);
 
-    if (idx_a > 0 && idx_b > 0 && idx_c > 0) {
-        fprintf(out, "Новые массивы сформированы!\n");
-        FormNov(&A1, &ka, A, idx_a);
-        FormNov(&B1, &kb, B, idx_b);
-        FormNov(&C1, &kc, C, idx_c);
-        fprintf(out, "Массив A1 (количество элементов: %i):\n", ka);
-        Vivod(out, A1, ka);
-        fprintf(out, "Массив B1 (количество элементов: %i):\n", kb);
-        Vivod(out, B1, kb);
-        fprintf(out, "Массив C1 (количество элементов: %i):\n", kc);
-        Vivod(out, C1, kc);
-    }
-    else if (idx_a <= 0 && idx_b > 0 && idx_c > 0) {
-        fprintf(out, "Новые массивы B и С сформированы!\n");
-        FormNov(&B1, &kb, B, idx_b);
-        FormNov(&C1, &kc, C, idx_c);
-        fprintf(out, "Массив B1 (количество элементов: %i):\n", kb);
-        Vivod(out, B1, kb);
-        fprintf(out, "Массив C1 (количество элементов: %i):\n", kc);
-        Vivod(out, C1, kc);
-    }
-    else if (idx_a > 0 && idx_b <= 0 && idx_c > 0) {
-        fprintf(out, "Новые массивы A и С сформированы!\n");
-        FormNov(&A1, &ka, A, idx_a);
-        FormNov(&C1, &kc, C, idx_c);
-        fprintf(out, "Массив A1 (количество элементов: %i):\n", ka);
-        Vivod(out, A1, ka);
-        fprintf(out, "Массив C1 (количество элементов: %i):\n", kc);
-        Vivod(out, C1, kc);
-    }
-    else if (idx_a > 0 && idx_b > 0 && idx_c <= 0) {
-        fprintf(out, "Новые массивы A и B сформированы!\n");
-        FormNov(&A1, &ka, A, idx_a);
-        FormNov(&B1, &kb, B, idx_b);
-        fprintf(out, "Массив A1 (количество элементов: %i):\n", ka);
-        Vivod(out, A1, ka);
-        fprintf(out, "Массив B1 (количество элементов: %i):\n", kb);
-        Vivod(out, B1, kb);
-    }
-    else if (idx_a > 0 && idx_b <= 0 && idx_c <= 0) {
-        fprintf(out, "Новый массив A сформирован!\n");
-        FormNov(&A1, &ka, A, idx_a);
+    if (idx_a != -1) {
+        SozdNov(&A1, A[idx_a]);
+        ka = 1;
+        DobNov(&A1, &ka, A, na, idx_a);
         fprintf(out, "Массив A1 (количество элементов: %i):\n", ka);
         Vivod(out, A1, ka);
     }
-    else if (idx_a <= 0 && idx_b > 0 && idx_c <= 0) {
-        fprintf(out, "Новый массив B сформирован!\n");
-        FormNov(&B1, &kb, B, idx_b);
+    else {
+        fprintf(out, "Новый массив A1 не сформирован (меньше 2 четных элементов).\n");
+    }
+
+    if (idx_b != -1) {
+        SozdNov(&B1, B[idx_b]);
+        kb = 1;
+        DobNov(&B1, &kb, B, nb, idx_b);
         fprintf(out, "Массив B1 (количество элементов: %i):\n", kb);
         Vivod(out, B1, kb);
     }
-    else if (idx_a <= 0 && idx_b <= 0 && idx_c > 0) {
-        fprintf(out, "Новый массив С сформирован!\n");
-        FormNov(&C1, &kc, C, idx_c);
+    else {
+        fprintf(out, "Новый массив B1 не сформирован (меньше 2 четных элементов).\n");
+    }
+
+    if (idx_c != -1) {
+        SozdNov(&C1, C[idx_c]);
+        kc = 1;
+        DobNov(&C1, &kc, C, nc, idx_c);
         fprintf(out, "Массив C1 (количество элементов: %i):\n", kc);
         Vivod(out, C1, kc);
     }
     else {
-        fprintf(out, "Все новые массивы содержат 0 элементов (или число Y не найдено)\n");
+        fprintf(out, "Новый массив C1 не сформирован (меньше 2 четных элементов).\n");
     }
 
     fclose(inA);
     fclose(inB);
     fclose(inC);
     fclose(out);
-    printf("Результат успешно записан в output.txt!");
+    printf("Результат успешно записан в output.txt!\n");
     Ochistka(&A);
     Ochistka(&B);
     Ochistka(&C);

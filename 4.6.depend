@@ -13,3 +13,12 @@
 	<malloc.h>
 	<stdbool.h>
 
+1795532442 source:e:\sugar\4.6\main.c
+	<stdio.h>
+	<malloc.h>
+	<locale.h>
+	"dynamic_m.h"
+
+1795532400 e:\sugar\4.6\dynamic_m.h
+	<stdio.h>
+
